@@ -27,24 +27,23 @@ cc.Class({
         },
         beforeNewCycle: {
           default: 0.0,
-          type: cc.Float,
+        },
+        choicesList: {
+          default: []
+        },
+        isFirstRound: {
+          default: true,
         }
     },
-
-    currNextTextResolve: null,
-
-    choicesList: null,
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
       this.readyForStart();
-
-      this.node.on("mousedown", this.clickRespond, this);
     },
 
     start() {
-      this.runGameIndex(32);
+      this.runGameIndex(12);
     },
 
     readyForStart() {
@@ -54,230 +53,248 @@ cc.Class({
 
       this.hideRecommendBox();
 
+      this.moveBgToMiddle();
+
       this.choicesList = [];
     },
 
     runGameIndex(index) {
-      const { content, nodeType: currNodeType, next, index: currIndex } = gameFlow[index];
+      const { content, nodeType: currNodeType, nextArray, currIndex } = gameFlow[index];
 
-      console.log("【GameController】: New Cycle, index: " + currIndex);
+      console.log(`【GameController】: New Cycle, currIndex: ${ currIndex }`);
 
-      new Promise((resolve) => {
-        switch(currNodeType) {
-          case nodeType.textNode: 
-            this.runTextStep(content, resolve);
-            break;
-          case nodeType.cardNode:
-            this.runCardStep(content, resolve);
-            break;
-          case nodeType.animationNode:
-            this.runAnimationStep(content, resolve);
-            break;
-          case nodeType.summeryNode:
-            this.runSummeryStep(this.choicesList, resolve);
-            break;
-          case nodeType.recommendNode:
-            this.runRecommendStep(content, resolve);
-            break;
-          case nodeType.refreshNode: 
-            this.runRefreshStep(content, resolve);
-            break;
-          default:
-        }
-      })
-      .then((nextIndex) => {
-        console.log("【GameController】: Finish prev Cycle");
+      this.getMainStep(currNodeType, content)
+        .then((index = 0) => {
+          console.log("【GameController】: Finish prev Cycle\n");
 
-        this.scheduleOnce(() => {
-          this.runGameIndex(next[nextIndex]);
-        }, this.beforeNewCycle);
-      })
-      .catch(() => {
-        console.log("【GameController】: Error!");
-      })
+          this.scheduleOnce(() => {
+            this.runGameIndex(nextArray[index]);
+          }, this.beforeNewCycle);
+        })
+        .catch(() => {
+          console.log("【GameController】: Error!");
+        })
     },
 
-    // steps
+    getMainStep(currNodeType, content) {
+      switch(currNodeType) {
+        case nodeType.textNode: 
+          return this.runTextStep(content);
+        case nodeType.cardNode:
+          return this.runCardStep(content);
+        case nodeType.animationNode:
+          return this.runAnimationStep(content);
+        case nodeType.summeryNode:
+          return this.runSummeryStep(this.choicesList);
+        case nodeType.recommendNode:
+          return this.runRecommendStep(content);
+        case nodeType.refreshNode: 
+          return this.runRefreshStep(content);
+        default:
+          return Promise.resolve;
+      }
+    },
 
-    runTextStep(content, parentResolve) {
-      new Promise((resolve) => {
+    // --------------------- Steps ------------------------
+
+    runTextStep(content) {
+      return new Promise((resolve) => {
         this.dialogBoxNode.emit("newDialog", {
           content,
           resolve,
         })
       })
-      .then(() => {
-        return new Promise((resolve) => {
-          this.currNextTextResolve = resolve;
-        })
-      })
-      .then(() => {
-        parentResolve(0);
-      })
+
     },
 
-    clickRespond() {
-      if (this.currNextTextResolve !== null) {
-        const resolve = this.currNextTextResolve;
+    runCardStep(content) {
+      return new Promise((resolve) => {
+        this.showCardBox();
 
-        this.currNextTextResolve = null;
-
-        resolve();
-      }
-    },
-
-    runCardStep(content, parentResolve) {
-      this.showCardBox();
-
-      new Promise((resolve) => {
         this.cardBoxNode.emit("newCard", {
           content,
           resolve,
         })
       })
       .then((index) => {
-        this.hideCardBox();
-
         this.choicesList.push(content[index]);
-
-        parentResolve(index);
+        
+        return this.hideCardBoxWithAnimation();
       })
     },
 
-    runRecommendStep(content, parentResolve) {
-      this.showRecommendBox();
+    runRecommendStep(content) {
+      return new Promise((resolve) => {
+        this.showRecommendBox();
 
-      new Promise((resolve) => {
         this.recommendBoxNode.emit("newRecommend", {
           resolve,
         })
       })
       .then((index) => {
-        this.runTextStep("您选择了： " + index + "号推荐" + content[index], () => {
-          this.hideRecommendBox();
-
-          parentResolve(0);
-        });
-      })
-    },
-
-    runAnimationStep(content, parentResolve) {
-      new Promise((resolve) => {
-        switch(content) {
-          case animationNode.showNoodleGod: 
-            this.showNoodleGodWithAnimation(resolve);
-            break;
-          case animationNode.hideNoodleGod:
-            this.showNoodleGod();
-            this.hideNoodleGodWithAnimation(resolve);
-            break;
-          case animationNode.moveBgToMiddle:
-            this.moveBgToMiddle(resolve);
-            break;
-          case animationNode.moveBgToBottom:
-            this.moveBgToBottom(resolve);
-            break;
-          case animationNode.moveBgToTop:
-            this.moveBgToTop(resolve);
-            break;
-          default:
-        }
+        return this.runTextStep("您选择了： " + index + "号推荐" + content[index]);
       })
       .then(() => {
-        parentResolve(0);
+        return this.hideRecommendBoxWithAnimation();
       })
     },
 
-    runSummeryStep(list, resolve) {
+    runAnimationStep(currNodeType) {
+      switch(currNodeType) {
+        case animationNode.showNoodleGod: 
+          return this.showNoodleGodWithAnimation();
+        case animationNode.hideNoodleGod:
+          return this.hideNoodleGodWithAnimation();
+        case animationNode.moveBgToMiddle:
+          return this.moveBgToMiddle();
+        case animationNode.moveBgToBottom:
+          return this.moveBgToBottom();
+        case animationNode.moveBgToTop:
+          return this.moveBgToTop();
+        default:
+          return Promise.resolve();
+      }
+    },
+
+    runSummeryStep(list) {
       const content = `就决定是你啦！${ list[0].name }便当配${ list[1].name }与${ list[2].name }！`;
 
-      this.runTextStep(content, resolve);
+      return this.runTextStep(content);
     },
 
-    runRefreshStep(content, resolve) {
+    runRefreshStep(content) {
       this.readyForStart();
 
-      this.runTextStep(content, resolve);
+      if (this.isFirstRound === true) {
+        this.isFirstRound = false;
+
+        return this.runTextStep(content[0]);
+      } else {
+        return this.runTextStep(content[1]);
+      }
     },
 
-    // animations
+    // --------------------- Animations ------------------------
 
-    moveBgToMiddle(resolve) {
-      this.moveBg(resolve, 0);
+    moveBgToMiddle() {
+      return this.moveBgY(0);
     },
 
-    moveBgToBottom(resolve) {
-      this.moveBg(resolve, 480);
+    moveBgToBottom() {
+      return this.moveBgY(480);
     },
 
-    moveBgToTop(resolve) {
-      this.moveBg(resolve, -480);
+    moveBgToTop() {
+      return this.moveBgY(-480);
     },
 
-    moveBg(resolve, y) {
-      cc.tween(this.bgNode)
+    moveBgY(y) {
+      return new Promise((resolve) => {
+        cc.tween(this.bgNode)
         .to(1, { position: cc.v2(0, y) })
         .call(resolve())
         .start();
+      })
     },
 
     showDialogBox() {
       this.dialogBoxNode.active = true;
+
+      return Promise.resolve();
     },
 
     hideDialogBox() {
       this.dialogBoxNode.active = false;
+
+      return Promise.resolve();
     },
 
     showCardBox() {
       this.cardBoxNode.active = true;
+
+      return Promise.resolve();
     },
 
     hideCardBox() {
       this.cardBoxNode.active = false;
+
+      return Promise.resolve();
+    },    
+    
+    hideCardBoxWithAnimation() {
+      return new Promise((resolve) => {
+        cc.tween(this.cardBoxNode)
+        .to(0.07, { opacity: 0 })
+        .call(() => {
+          this.cardBoxNode.active = false;
+          this.cardBoxNode.opacity = 255;
+          this.cardBoxNode.scale = 1;
+  
+          resolve();
+        })
+        .start();
+      })
     },
 
     showNoodleGod() {
       this.noodleGodNode.active = true;
+
+      return Promise.resolve();
     },
 
     hideNoodleGod() {
       this.noodleGodNode.active = false;
+
+      return Promise.resolve();
     },
 
-    showNoodleGodWithAnimation(parentResolve) {
-      this.showNoodleGod();
+    showNoodleGodWithAnimation() {
+      return new Promise((resolve) => {
+        this.showNoodleGod();
 
-      new Promise((resolve) => {
         this.noodleGodNode.emit("godShow", {
           resolve,
         })
       })
-      .then(() => {
-        parentResolve();
-      })
+
     },
 
-    hideNoodleGodWithAnimation(parentResolve) {
-      new Promise((resolve) => {
+    hideNoodleGodWithAnimation() {
+      return new Promise((resolve) => {
         this.noodleGodNode.emit("godHide", {
           resolve,
         })
       })
       .then(() => {
-        this.hideNoodleGod();
-
-        parentResolve();
+        return this.hideNoodleGod();
       })
     },
 
     showRecommendBox() {
       this.recommendBoxNode.active = true;
+
+      return Promise.resolve();
     },
 
     hideRecommendBox() {
       this.recommendBoxNode.active = false;
-    }
 
-    // update (dt) {},
+      return Promise.resolve();
+    },
+
+    hideRecommendBoxWithAnimation() {
+      return new Promise((resolve) => {
+        cc.tween(this.recommendBoxNode)
+        .to(0, { opacity: 100})
+        .to(0.15, { opacity: 0, scale: 8 }, { easing: 'easeInSine'})
+        .call(() => {
+          this.recommendBoxNode.active = false;
+          this.recommendBoxNode.opacity = 255;
+          this.recommendBoxNode.scale = 1;
+  
+          resolve();
+        })
+        .start();
+      })
+    }
 });

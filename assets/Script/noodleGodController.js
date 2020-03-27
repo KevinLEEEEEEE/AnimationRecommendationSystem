@@ -1,9 +1,4 @@
-// Learn cc.Class:
-//  - https://docs.cocos.com/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+const { GlobalSetting } = require('./globalSetting');
 
 cc.Class({
     extends: cc.Component,
@@ -27,11 +22,9 @@ cc.Class({
         },
         noodleGodHideY: {
           default: 0.0,
-          type: cc.Float,
         },
         noodleGodShowY: {
           default: 0.0,
-          type: cc.Float,
         }
     },
 
@@ -53,9 +46,7 @@ cc.Class({
 
       cc.tween(this.noodleNode)
         .to(1, { position: cc.v2(this.noodleNode.position.x, this.noodleGodShowY), rotation: 360})
-        .call(() => {
-          resolve();
-        })
+        .call(resolve)
         .start();
     },
 
@@ -69,9 +60,7 @@ cc.Class({
 
       cc.tween(this.noodleNode)
         .to(1, { position: cc.v2(this.noodleNode.position.x, this.noodleGodHideY)} )
-        .call(() => {
-          resolve();
-        })
+        .call(resolve)
         .start();
     },
 

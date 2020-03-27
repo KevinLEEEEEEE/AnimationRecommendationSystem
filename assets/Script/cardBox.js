@@ -15,7 +15,7 @@ cc.Class({
         default: null,
         type: cc.Sprite
       },
-      sushi: {
+      pizza: {
         default: null,
         type: cc.SpriteFrame,
       },
@@ -23,31 +23,31 @@ cc.Class({
         default: null,
         type: cc.SpriteFrame,
       },
-      rice: {
+      cookies: {
         default: null,
         type: cc.SpriteFrame,
       },
-      cake: {
+      fruit: {
         default: null,
         type: cc.SpriteFrame,
       },
-      daifuku: {
+      donut: {
         default: null,
         type: cc.SpriteFrame,
       },
-      pastry: {
+      bread: {
         default: null,
         type: cc.SpriteFrame,
       },
-      milktea: {
+      redtea: {
         default: null,
         type: cc.SpriteFrame,
       },
-      cocacola: {
+      coffee: {
         default: null,
         type: cc.SpriteFrame,
       },
-      blossom: {
+      sweetwine: {
         default: null,
         type: cc.SpriteFrame,
       }
@@ -59,10 +59,12 @@ cc.Class({
 
     onLoad () {
       this.node.on("newCard", this.newCard, this);
+
+      this.node.on("cardClick", this.cardClick, this);
     },
 
-    cardClick(e, index) {
-      if(this.currCardResolve) {
+    cardClick({ index }) {
+      if(this.currCardResolve !== null) {
         this.currCardResolve(index);
 
         this.currCardResolve = null;
@@ -71,20 +73,16 @@ cc.Class({
 
 
     newCard({ content, resolve }) {
+      console.log("【CardBox】: receive message: newCard");
+
       this.updateCardSprites(content);
 
-      this.emitCardContent(resolve);
+      this.currCardResolve = resolve;
     },
 
-    emitCardContent(parentResolve) {
-      this.currCardResolve = parentResolve;
+    updateCardSprites([c1, c2, c3]) {
+      this.card1Sprite.spriteFrame = this[c1.spritename];
+      this.card2Sprite.spriteFrame = this[c2.spritename];
+      this.card3Sprite.spriteFrame = this[c3.spritename];
     },
-
-    updateCardSprites(content) {
-      this.card1Sprite.spriteFrame = this[content[0].spritename];
-      this.card2Sprite.spriteFrame = this[content[1].spritename];
-      this.card3Sprite.spriteFrame = this[content[2].spritename];
-    },
-
-    // update (dt) {},
 });

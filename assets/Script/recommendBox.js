@@ -3,6 +3,18 @@ cc.Class({
   extends: cc.Component,
 
   properties: {
+    gem1: {
+      default: null,
+      type: cc.Node
+    },
+    gem2: {
+      default: null,
+      type: cc.Node
+    },
+    gem3: {
+      default: null,
+      type: cc.Node
+    },
   },
 
   currRecommendResolve: null,
@@ -11,10 +23,12 @@ cc.Class({
 
   onLoad () {
     this.node.on("newRecommend", this.newRecommend, this);
+
+    this.node.on("gemClick", this.gemClick, this);
   },
 
-  recommendClick(e, index) {
-    if(this.currRecommendResolve) {
+  gemClick({ index }) {
+    if(this.currRecommendResolve !== null) {
       this.currRecommendResolve(index);
 
       this.currRecommendResolve = null;
@@ -22,10 +36,8 @@ cc.Class({
   },
 
   newRecommend({ resolve }) {
-    this.emitRecommendContent(resolve);
-  },
+    console.log("【RecommendBox】: receive message: newRecommend")
 
-  emitRecommendContent(resolve) {
     this.currRecommendResolve = resolve;
   },
 

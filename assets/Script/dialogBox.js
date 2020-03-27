@@ -13,33 +13,37 @@ cc.Class({
         },
         beforeType: {
           default: 0.0,
-          type: cc.Float,
         },
-        beforeNext: {
+        beforeBtn: {
           default: 0.0,
-          type: cc.Float,
         },
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-      this.hideBtn();
+    isTypeFinished: false,
 
+    currDialogResolve: null,
+
+    onLoad () {
       this.node.on("newDialog", this.newDialog, this);
     },
 
+    onDisable() {
+      this.hideBtn();
+    },
+
     newDialog({content, resolve}) {
-      console.log("【DialogBox】: receive controller request")
+      console.log("【DialogBox】: receive message: newDialog")
+
+      this.currDialogResolve = resolve;
 
       this.scheduleOnce(() => {
-        this.hideBtn();
-
-        this.emitTypeContent(content, resolve);
+        this.emitTypeContent(content);
       }, this.beforeType);
     },
 
-    emitTypeContent(content, parentResolve) {
+    emitTypeContent(content) {
       new Promise((resolve) => {
         this.textNode.emit("startType", {
           content,
@@ -52,10 +56,22 @@ cc.Class({
         this.scheduleOnce(() => {
           this.showBtn();
 
-          parentResolve();
-        }, this.beforeNext);
+          this.isTypeFinished = true;
+        }, this.beforeBtn);
 
       })
+    },
+
+    nodeClick() {
+      if (this.isTypeFinished === true && this.currDialogResolve !== null) {
+        this.currDialogResolve();
+
+        this.isTypeFinished = false;
+
+        this.currDialogResolve = null;
+
+        this.hideBtn()
+      }
     },
 
     showBtn() {
@@ -65,6 +81,4 @@ cc.Class({
     hideBtn() {
       this.btnNode.active = false;
     },
-
-    // update (dt) {},
 });

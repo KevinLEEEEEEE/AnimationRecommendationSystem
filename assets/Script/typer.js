@@ -1,3 +1,4 @@
+const { GlobalSetting } = require('./globalSetting');
 
 cc.Class({
     extends: cc.Component,
@@ -5,7 +6,9 @@ cc.Class({
     properties: {
         speed: {
           default: 1.0,
-          type: cc.Float,
+        },
+        isTypeFinished: {
+          default: false,
         },
         audio: {
           default: null,
@@ -23,15 +26,17 @@ cc.Class({
       this.node.on("startType", this.startType, this);
     },
 
-    // update (dt) {},
-
     startType({content, resolve}) {
       this.setNodeContent("");
+
+      this.currTextResolve = resolve;
+
+      this.isTypeFinished = false;
 
       this.typer(content, resolve, this.speed);
     },
 
-    typer(text = "", resolve = () => {}, speed = 1) {
+    typer(text, resolve, speed) {
       const totalLoop = text.length - 1;
       let currLoop = 0;
       let currAudio = null;
@@ -68,7 +73,7 @@ cc.Class({
     },
 
     playTyperSound() {
-      return cc.audioEngine.play(this.audio, false, 0.2);
+      return cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
     },
 
     stopTyperSound(currAudio) {
