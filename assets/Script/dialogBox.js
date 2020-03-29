@@ -1,84 +1,85 @@
 
 cc.Class({
-    extends: cc.Component,
+  extends: cc.Component,
 
-    properties: {
-        btnNode: {
-          default: null,
-          type: cc.Node,
-        },
-        textNode: {
-          default: null,
-          type: cc.Node,
-        },
-        beforeType: {
-          default: 0.0,
-        },
-        beforeBtn: {
-          default: 0.0,
-        },
+  properties: {
+    btnNode: {
+      default: null,
+      type: cc.Node,
     },
-
-    // LIFE-CYCLE CALLBACKS:
-
-    isTypeFinished: false,
-
-    currDialogResolve: null,
-
-    onLoad () {
-      this.node.on("newDialog", this.newDialog, this);
+    textNode: {
+      default: null,
+      type: cc.Node,
     },
-
-    onDisable() {
-      this.hideBtn();
+    beforeType: {
+      default: 0.0,
     },
-
-    newDialog({content, resolve}) {
-      console.log("【DialogBox】: receive message: newDialog")
-
-      this.currDialogResolve = resolve;
-
-      this.scheduleOnce(() => {
-        this.emitTypeContent(content);
-      }, this.beforeType);
+    beforeBtn: {
+      default: 0.0,
     },
+  },
 
-    emitTypeContent(content) {
-      new Promise((resolve) => {
-        this.textNode.emit("startType", {
-          content,
-          resolve,
-        })
-      })
+  // LIFE-CYCLE CALLBACKS:
+
+  isTypeFinished: false,
+
+  currDialogResolve: null,
+
+  onLoad() {
+    this.node.on('newDialog', this.newDialog, this);
+
+    this.hideBtn();
+  },
+
+  onDisable() {
+    this.hideBtn();
+  },
+
+  newDialog({ content, resolve }) {
+    console.log('【DialogBox】: receive message: newDialog');
+
+    this.currDialogResolve = resolve;
+
+    this.scheduleOnce(() => {
+      this.emitTypeContent(content);
+    }, this.beforeType);
+  },
+
+  emitTypeContent(content) {
+    new Promise((resolve) => {
+      this.textNode.emit('startType', {
+        content,
+        resolve,
+      });
+    })
       .then(() => {
-        console.log("【DialogBox】: type finished");
+        console.log('【DialogBox】: type finished');
 
         this.scheduleOnce(() => {
           this.showBtn();
 
           this.isTypeFinished = true;
         }, this.beforeBtn);
+      });
+  },
 
-      })
-    },
+  nodeClick() {
+    if (this.isTypeFinished === true && this.currDialogResolve !== null) {
+      this.currDialogResolve();
 
-    nodeClick() {
-      if (this.isTypeFinished === true && this.currDialogResolve !== null) {
-        this.currDialogResolve();
+      this.isTypeFinished = false;
 
-        this.isTypeFinished = false;
+      this.currDialogResolve = null;
 
-        this.currDialogResolve = null;
+      this.hideBtn();
+    }
+  },
 
-        this.hideBtn()
-      }
-    },
+  showBtn() {
+    this.btnNode.active = true;
+  },
 
-    showBtn() {
-      this.btnNode.active = true;
-    },
-
-    hideBtn() {
-      this.btnNode.active = false;
-    },
+  hideBtn() {
+    this.btnNode.active = false;
+  },
 });

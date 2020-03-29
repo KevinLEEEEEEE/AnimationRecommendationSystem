@@ -3,7 +3,7 @@
   "_name": "gemClick",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 1.4166666666666667,
+  "_duration": 2.5,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -33,12 +33,7 @@
             "x": 4,
             "y": 4
           },
-          "curve": [
-            0.18,
-            0.89,
-            0.31,
-            1.21
-          ]
+          "curve": "cubicInOut"
         },
         {
           "frame": 0.9,
@@ -88,6 +83,10 @@
         {
           "frame": 0.9833333333333333,
           "value": 255
+        },
+        {
+          "frame": 1.1666666666666667,
+          "value": 255
         }
       ],
       "position": [
@@ -95,24 +94,24 @@
           "frame": 0.9,
           "value": [
             0,
-            100,
+            20,
             0
-          ],
-          "curve": "quadInOut"
+          ]
         },
         {
           "frame": 1.1666666666666667,
           "value": [
             0,
-            -60,
+            -10,
             0
-          ]
+          ],
+          "curve": "linear"
         },
         {
           "frame": 1.4166666666666667,
           "value": [
             0,
-            0,
+            50,
             0
           ]
         }
@@ -133,6 +132,11 @@
     {
       "frame": 1.4166666666666667,
       "func": "playGemAnimation",
+      "params": []
+    },
+    {
+      "frame": 2.5,
+      "func": "emitClickMessage",
       "params": []
     }
   ]

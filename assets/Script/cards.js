@@ -1,84 +1,60 @@
 const { GlobalSetting } = require('./globalSetting');
 
 cc.Class({
-    extends: cc.Component,
+  extends: cc.Component,
 
-    properties: {
-      cardSound: {
-        default: null,
-        type: cc.AudioClip
-      },
-      animationGap: {
-        default: 0.0,
-      },
-      animationDelay: {
-        default: 0.0,
-      },
-      canClick: {
-        default: false,
-      }
+  properties: {
+    cardSound: {
+      default: null,
+      type: cc.AudioClip,
     },
-
-    // LIFE-CYCLE CALLBACKS:
-
-    onLoad () {
-      this.hideCard();
+    animationDelay: {
+      default: 0.0,
     },
-    
-    onEnable() {
-      this.scheduleOnce(() => {
-        this.getComponent(cc.Animation).play("showCard");
-
-        this.canClick = true;
-      }, this.animationDelay);
+    index: {
+      default: 0,
     },
+  },
 
-    onDisable() {
-      this.hideCard();
-    },
-  
-    hideCard() {
-      this.node.opacity = 0;
-    },
+  // LIFE-CYCLE CALLBACKS:
 
-    playSound() {
-      cc.audioEngine.play(this.cardSound, false, GlobalSetting.volume);
-    },
+  onLoad() {
+    this.node.on('cardChecked', this.cardChecked, this);
+  },
 
-    nodeUnclick() {
-      this.canClick = false;
-    },
+  onEnable() {
+    this.resetCard();
 
-    nodeClick(e, index) {
-      if (this.canClick === false) {
-        return;
-      }
+    this.playShowAnimation();
+  },
 
-      this.canClick = false;
+  resetCard() {
+    this.node.opacity = 0;
+  },
 
-      this.playClickAnimation(index);
-    },
+  playShowAnimation() {
+    this.scheduleOnce(() => {
+      this.getComponent(cc.Animation).play('showCard');
+    }, this.animationDelay);
+  },
 
-    playClickAnimation(index) {
-      cc.tween(this.node)
-        .call(this.playClickSound)
-        .to(this.animationGap, { opacity: 100 })
-        .to(this.animationGap * 2, { opacity: 255 })
-        .to(this.animationGap * 3, { opacity: 100 })
-        .call(this.playClickSound)
-        .to(this.animationGap * 4, { opacity: 255 })
-        .to(this.animationGap * 4)
-        .call(() => {
-          this.emitClickMessage(index)
-        })
-        .start();
-    },
+  cardChecked() {
+    this.getComponent(cc.Animation).play('cardClick');
+  },
 
-    playClickSound() {
-      cc.audioEngine.play(this.cardSound, false, GlobalSetting.volume);
-    },
+  playShowSound() {
+    this.playSound();
+  },
 
-    emitClickMessage(index) {
-      this.node.parent.emit("cardClick", { index })
-    },
+  playClickSound() {
+    this.playSound();
+  },
+
+  playSound() {
+    cc.audioEngine.play(this.cardSound, false, GlobalSetting.volume);
+  },
+
+  emitClickMessage() {
+    this.node.parent.emit('cardAnimationFinish', { index: this.index });
+  },
 });

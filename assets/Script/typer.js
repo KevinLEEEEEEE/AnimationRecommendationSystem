@@ -1,82 +1,82 @@
 const { GlobalSetting } = require('./globalSetting');
 
 cc.Class({
-    extends: cc.Component,
+  extends: cc.Component,
 
-    properties: {
-        speed: {
-          default: 1.0,
-        },
-        isTypeFinished: {
-          default: false,
-        },
-        audio: {
-          default: null,
-          type: cc.AudioClip
-        },
-        labelNode: {
-          default: null,
-          type: cc.Label,
-        }
+  properties: {
+    speed: {
+      default: 1.0,
     },
-    
-    // LIFE-CYCLE CALLBACKS:
-
-    onLoad () {
-      this.node.on("startType", this.startType, this);
+    isTypeFinished: {
+      default: false,
     },
-
-    startType({content, resolve}) {
-      this.setNodeContent("");
-
-      this.currTextResolve = resolve;
-
-      this.isTypeFinished = false;
-
-      this.typer(content, resolve, this.speed);
+    audio: {
+      default: null,
+      type: cc.AudioClip,
     },
+    labelNode: {
+      default: null,
+      type: cc.Label,
+    },
+  },
 
-    typer(text, resolve, speed) {
-      const totalLoop = text.length - 1;
-      let currLoop = 0;
-      let currAudio = null;
+  // LIFE-CYCLE CALLBACKS:
 
-      const callback = () => {
-        if (currAudio) {
-          this.stopTyperSound(currAudio);
+  onLoad() {
+    this.node.on('startType', this.startType, this);
+  },
 
-          currAudio = null;
-        }
+  startType({ content, resolve }) {
+    this.setNodeContent('');
 
-        if (currLoop >= totalLoop) {
-          this.unschedule(callback);
+    this.currTextResolve = resolve;
 
-          resolve();
-        }
+    this.isTypeFinished = false;
 
-        currLoop += 1;
-        const content = this.getTyperContent(text, currLoop, totalLoop);
+    this.typer(content, resolve, this.speed);
+  },
 
-        currAudio = this.playTyperSound();
-        this.setNodeContent(content);
+  typer(text, resolve, speed) {
+    const totalLoop = text.length - 1;
+    let currLoop = 0;
+    let currAudio = null;
+
+    const callback = () => {
+      if (currAudio) {
+        this.stopTyperSound(currAudio);
+
+        currAudio = null;
       }
 
-      this.schedule(callback, speed);
-    },
+      if (currLoop >= totalLoop) {
+        this.unschedule(callback);
 
-    getTyperContent(text, position, total) {
-      return text.substring(0, position)+ (position <= total ? "|" : "");
-    },
+        resolve();
+      }
 
-    setNodeContent(content = "") {
-      this.labelNode.string = content;
-    },
+      currLoop += 1;
+      const content = this.getTyperContent(text, currLoop, totalLoop);
 
-    playTyperSound() {
-      return cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
-    },
+      currAudio = this.playTyperSound();
+      this.setNodeContent(content);
+    };
 
-    stopTyperSound(currAudio) {
-      cc.audioEngine.stop(currAudio);
-    },
+    this.schedule(callback, speed);
+  },
+
+  getTyperContent(text, position, total) {
+    return text.substring(0, position) + (position <= total ? '|' : '');
+  },
+
+  setNodeContent(content = '') {
+    this.labelNode.string = content;
+  },
+
+  playTyperSound() {
+    return cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
+  },
+
+  stopTyperSound(currAudio) {
+    cc.audioEngine.stop(currAudio);
+  },
 });

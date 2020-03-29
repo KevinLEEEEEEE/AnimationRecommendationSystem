@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "card1",
+  "_name": "showCard",
   "_objFlags": 0,
   "_native": "",
   "_duration": 0.25,
@@ -41,7 +41,7 @@
   "events": [
     {
       "frame": 0,
-      "func": "playSound",
+      "func": "playShowSound",
       "params": []
     }
   ]
