@@ -4,11 +4,9 @@ cc.Class({
 
   properties: {
     canCheck: {
-      default: true,
+      default: false,
     },
   },
-
-  currRecommendResolve: null,
 
   // LIFE-CYCLE CALLBACKS:
 
@@ -16,6 +14,7 @@ cc.Class({
     this.node.on('newRecommend', this.newRecommend, this);
     this.node.on('recommendHide', this.recommendHide, this);
     this.node.on('gemAnimationFinish', this.gemAnimationFinish, this);
+    this.node.on('gemNextRound', this.gemNextRound, this);
   },
 
   onEnable() {
@@ -25,12 +24,9 @@ cc.Class({
   reset() {
     this.node.opacity = 255;
     this.node.scale = 1;
-    this.canCheck = true;
   },
 
   newRecommend({ resolve }) {
-    console.log('【RecommendBox】: receive message: newRecommend');
-
     this.currRecommendResolve = resolve;
   },
 
@@ -43,27 +39,27 @@ cc.Class({
   },
 
   gemAnimationFinish({ index }) {
-    if (this.currRecommendResolve !== null) {
-      this.currRecommendResolve(index);
-
-      this.currRecommendResolve = null;
+    if (index === 2) {
+      this.canCheck = true;
     }
   },
 
+  gemNextRound({ index }) {
+    this.currRecommendResolve(index);
+  },
+
   gemChecked({ node: target }) {
-    if (this.canCheck === false) {
-      return;
-    }
+    if (this.canCheck) {
+      this.canCheck = false;
 
-    this.canCheck = false;
+      const { children } = this.node;
 
-    const { children } = this.node;
-
-    for (let i = 0; i < 3; i += 1) {
-      if (target === children[i]) {
-        children[i].emit('gemChecked');
-      } else {
-        children[i].emit('gemUnChecked');
+      for (let i = 0; i < 3; i += 1) {
+        if (target === children[i]) {
+          children[i].emit('gemChecked');
+        } else {
+          children[i].emit('gemUnChecked');
+        }
       }
     }
   },

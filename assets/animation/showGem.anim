@@ -67,6 +67,11 @@
       "frame": 0.3333333333333333,
       "func": "playGemAnimation",
       "params": []
+    },
+    {
+      "frame": 0.3333333333333333,
+      "func": "emitAnimationFinishMessage",
+      "params": []
     }
   ]
 }

@@ -23,17 +23,17 @@
       "scaleX": [
         {
           "frame": 0,
-          "value": 0,
+          "value": 1,
           "curve": [
-            0.18,
-            0.89,
+            0.23078125,
+            1.0150000000000001,
             0.31,
             1.21
           ]
         },
         {
           "frame": 0.25,
-          "value": 1
+          "value": 1.1
         }
       ]
     }
@@ -42,6 +42,11 @@
     {
       "frame": 0,
       "func": "playShowSound",
+      "params": []
+    },
+    {
+      "frame": 0.25,
+      "func": "emitAnimationFinishMessage",
       "params": []
     }
   ]

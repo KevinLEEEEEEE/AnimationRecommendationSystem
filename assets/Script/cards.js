@@ -54,7 +54,11 @@ cc.Class({
     cc.audioEngine.play(this.cardSound, false, GlobalSetting.volume);
   },
 
-  emitClickMessage() {
+  emitAnimationFinishMessage() {
     this.node.parent.emit('cardAnimationFinish', { index: this.index });
+  },
+
+  emitNextRoundMessage() {
+    this.node.parent.emit('cardNextRound', { index: this.index });
   },
 });

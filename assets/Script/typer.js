@@ -1,5 +1,12 @@
 const { GlobalSetting } = require('./globalSetting');
 
+const STATE = {
+  beforeType: 1,
+  typing: 2,
+  typeFinished: 3,
+  continueBtnActived: 4,
+};
+
 cc.Class({
   extends: cc.Component,
 
@@ -7,16 +14,28 @@ cc.Class({
     speed: {
       default: 1.0,
     },
-    isTypeFinished: {
-      default: false,
+    typerLabelNode: {
+      default: null,
+      type: cc.Label,
+    },
+    speakerLabelNode: {
+      default: null,
+      type: cc.Label,
+    },
+    canvasNode: {
+      default: null,
+      type: cc.Node,
+    },
+    continueBtnNode: {
+      default: null,
+      type: cc.Node,
     },
     audio: {
       default: null,
       type: cc.AudioClip,
     },
-    labelNode: {
-      default: null,
-      type: cc.Label,
+    beforeBtn: {
+      default: 0.0,
     },
   },
 
@@ -24,59 +43,137 @@ cc.Class({
 
   onLoad() {
     this.node.on('startType', this.startType, this);
+    this.canvasNode.on('mousedown', this.btnClick, this);
+
+    this.resetTyper();
   },
 
   startType({ content, resolve }) {
-    this.setNodeContent('');
+    if (!this.canType()) {
+      return;
+    }
 
     this.currTextResolve = resolve;
+    this.content = content;
 
-    this.isTypeFinished = false;
+    this.setState(STATE.typing);
 
-    this.typer(content, resolve, this.speed);
+    this.setTyperLabelContent('');
+    this.setSpeakerLabelContent(content.speaker);
+
+    this.typing(content.text);
   },
 
-  typer(text, resolve, speed) {
+  btnClick() {
+    if (this.canSkip()) { // skip typing process
+      this.skipType();
+    } else if (this.canContinue()) { // next round
+      this.currTextResolve();
+
+      this.resetTyper();
+    }
+  },
+
+  resetTyper() {
+    this.setState(STATE.beforeType);
+
+    this.typingHandler = null;
+    this.currTextResolve = null;
+    this.content = {
+      speaker: '',
+      content: '',
+    };
+
+    this.hideContinueBtn();
+  },
+
+  skipType() {
+    this.finishType();
+
+    this.setTyperLabelContent(this.content.text);
+  },
+
+  finishType() {
+    this.setState(STATE.typeFinished);
+
+    this.unschedule(this.typingHandler);
+
+    this.scheduleOnce(() => {
+      this.setState(STATE.continueBtnActived);
+
+      this.showContinueBtn();
+    }, this.beforeBtn);
+  },
+
+  typing(text) {
     const totalLoop = text.length - 1;
     let currLoop = 0;
     let currAudio = null;
 
-    const callback = () => {
+    this.typingHandler = () => {
       if (currAudio) {
         this.stopTyperSound(currAudio);
-
-        currAudio = null;
       }
 
       if (currLoop >= totalLoop) {
-        this.unschedule(callback);
-
-        resolve();
+        this.finishType();
       }
 
       currLoop += 1;
       const content = this.getTyperContent(text, currLoop, totalLoop);
 
       currAudio = this.playTyperSound();
-      this.setNodeContent(content);
+      this.setTyperLabelContent(content);
     };
 
-    this.schedule(callback, speed);
+    this.schedule(this.typingHandler, this.speed);
   },
 
   getTyperContent(text, position, total) {
     return text.substring(0, position) + (position <= total ? '|' : '');
   },
 
-  setNodeContent(content = '') {
-    this.labelNode.string = content;
+  setTyperLabelContent(content) {
+    this.typerLabelNode.string = content;
+  },
+
+  setSpeakerLabelContent(content) {
+    this.speakerLabelNode.string = content;
+  },
+
+  setState(state) {
+    this.state = state;
+  },
+
+  getState() {
+    return this.state || STATE.beforeType;
+  },
+
+  canType() {
+    return this.getState() === STATE.beforeType;
+  },
+
+  canSkip() {
+    return this.getState() === STATE.typing;
+  },
+
+  canContinue() {
+    return this.getState() === STATE.continueBtnActived;
   },
 
   playTyperSound() {
     return cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
   },
 
-  stopTyperSound(currAudio) {
-    cc.audioEngine.stop(currAudio);
+  stopTyperSound(audio) {
+    cc.audioEngine.stop(audio);
+  },
+
+  showContinueBtn() {
+    this.continueBtnNode.active = true;
+  },
+
+  hideContinueBtn() {
+    this.continueBtnNode.active = false;
   },
 });

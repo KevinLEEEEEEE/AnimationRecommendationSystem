@@ -12,11 +12,9 @@ cc.Class({
       type: [cc.SpriteFrame],
     },
     canCheck: {
-      default: true,
+      default: false,
     },
   },
-
-  currCardResolve: null,
 
   // LIFE-CYCLE CALLBACKS:
 
@@ -24,6 +22,7 @@ cc.Class({
     this.node.on('newCard', this.newCard, this);
     this.node.on('cardHide', this.cardHide, this);
     this.node.on('cardAnimationFinish', this.cardAnimationFinish, this);
+    this.node.on('cardNextRound', this.cardNextRound, this);
   },
 
   onEnable() {
@@ -33,15 +32,22 @@ cc.Class({
   reset() {
     this.node.opacity = 255;
     this.node.scale = 1;
-    this.canCheck = true;
   },
 
   newCard({ content, resolve }) {
-    console.log('【CardBox】: receive message: newCard');
-
     this.updateCardSprites(content);
 
     this.currCardResolve = resolve;
+  },
+
+  cardAnimationFinish({ index }) {
+    if (index === 2) {
+      this.canCheck = true;
+    }
+  },
+
+  cardNextRound({ index }) {
+    this.currCardResolve(index);
   },
 
   updateCardSprites([c1, c2, c3]) {
@@ -57,16 +63,8 @@ cc.Class({
       .start();
   },
 
-  cardAnimationFinish({ index }) {
-    if (this.currCardResolve !== null) {
-      this.currCardResolve(index);
-
-      this.currCardResolve = null;
-    }
-  },
-
   cardChedked(e) {
-    if (this.canCheck === false) {
+    if (!this.canCheck) {
       return;
     }
 

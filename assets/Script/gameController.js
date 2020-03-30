@@ -38,8 +38,16 @@ cc.Class({
 
   // LIFE-CYCLE CALLBACKS:
 
+  onLoad() {
+    if (CC_DEBUG === true) {
+      debug.setLevel(5);
+    } else {
+      debug.setLevel(0);
+    }
+  },
+
   start() {
-    this.runGameIndex(10);
+    this.runGameIndex(0);
   },
 
   runGameIndex(index) {
@@ -47,7 +55,7 @@ cc.Class({
       content, nodeType: currNodeType, nextArray, currIndex,
     } = gameFlow[index];
 
-    console.log(`\n【GameController】: New Cycle：${currIndex}`);
+    debug.log(`【GameController】：New Cycle：${currIndex}`);
 
     this.runMainStep(currNodeType, content)
       .then((nextIndex) => {
@@ -56,7 +64,7 @@ cc.Class({
         }, this.beforeNewCycle);
       })
       .catch((e) => {
-        console.error(`【GameController】: Error!, details: ${e}`);
+        debug.error(`【GameController】：Error!, details: ${e}`);
       });
   },
 
@@ -73,7 +81,7 @@ cc.Class({
       case nodeType.animationNode:
         return this.runAnimationStep(content);
       case nodeType.summeryNode:
-        return this.runSummeryStep();
+        return this.runSummeryStep(content);
       case nodeType.recommendNode:
         return this.runRecommendStep(content);
       case nodeType.refreshNode:
@@ -123,10 +131,15 @@ cc.Class({
     })
       .then((index) => {
         const gemContent = this.getGemContent(index);
-        const recommendContent = this.getRecommendContent(content);
-        const text = `【${gemContent}色推荐宝石】 ${recommendContent}是一部。。。的动漫，后续内容有待完善`;
+        const recommendContent = this.getRecommendContent(content.text);
+        const text = `【开启${gemContent}】你需要的是${recommendContent}`;
 
-        return this.runTextStep(text);
+        const newContent = {
+          speaker: content.speaker,
+          text,
+        };
+
+        return this.runTextStep(newContent);
       })
       .then(() => this.hidegemBoxWithAnimation());
   },
@@ -134,18 +147,55 @@ cc.Class({
   getGemContent(index) {
     switch (index) {
       case 0:
-        return '红';
+        return '红色脉动宝石';
       case 1:
-        return '绿';
+        return '绿色翡翠宝石';
       case 2:
-        return '银';
+        return '银色光辉宝石';
       default:
-        return '红';
+        return '红色脉动宝石';
     }
   },
 
   getRecommendContent(animeList) {
-    return animeList[this.getRandomInt(animeList.length)];
+    let recommendHistory = this.getRecommendHistory();
+    let avaiList = this.excludeArray(animeList, recommendHistory);
+
+    debug.log(`【GameController】：get current history: ${recommendHistory}`);
+
+    if (avaiList.length === 0) {
+      this.clearRecommendHistory();
+
+      avaiList = animeList;
+      recommendHistory = [];
+
+      debug.log('【GameController】：run out of recommendation list');
+    }
+
+    const recommendation = avaiList[this.getRandomInt(avaiList.length)];
+
+    recommendHistory.push(recommendation);
+    this.setRecommendHistory(recommendHistory);
+
+    debug.log(`【GameController】：set new history: ${recommendHistory}`);
+
+    return recommendation;
+  },
+
+  excludeArray(targetArray, excludes) {
+    return targetArray.filter((element) => excludes.indexOf(element) === -1);
+  },
+
+  getRecommendHistory() {
+    return JSON.parse(cc.sys.localStorage.getItem('recommendHistory')) || [];
+  },
+
+  setRecommendHistory(data) {
+    cc.sys.localStorage.setItem('recommendHistory', JSON.stringify(data));
+  },
+
+  clearRecommendHistory() {
+    this.setRecommendHistory([]);
   },
 
   getRandomInt(max) {
@@ -169,14 +219,23 @@ cc.Class({
     }
   },
 
-  runSummeryStep() {
-    return this.runTextStep(this.getSummeryContent());
+  runSummeryStep(content) {
+    const newContent = {
+      speaker: content.speaker,
+      text: this.getSummeryContent(),
+    };
+
+    return this.runTextStep(newContent);
   },
 
   getSummeryContent() {
-    const list = this.choicesList;
+    // const list = this.choicesList;
+    // // const name1 = list[0] ? list[0].name : '';
+    // // const name2 = list[1] ? list[1].name : '';
+    // // const name3 = list[2] ? list[2].name : '';
+    const [{ name: name1 }, { name: name2 }, { name: name3 }] = this.choicesList;
 
-    return `就决定是你啦！${list[0].name}便当配${list[1].name}与${list[2].name}！`;
+    return `就决定是你啦！${name1}便当配${name2}与${name3}！`;
   },
 
   runRefreshStep() {

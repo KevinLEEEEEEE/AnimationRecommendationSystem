@@ -15,9 +15,6 @@ cc.Class({
     animationDelay: {
       default: 0.0,
     },
-    animationGap: {
-      default: 0.0,
-    },
     index: {
       default: 0,
     },
@@ -37,16 +34,12 @@ cc.Class({
 
     this.scheduleOnce(() => {
       this.getComponent(cc.Animation).play('showGem');
-
-      this.canClick = true;
     }, this.animationDelay);
   },
 
   reset() {
     this.node.scale = 1;
-
     this.node.opacity = 0;
-
     this.node.position = this.pos;
   },
 
@@ -54,8 +47,8 @@ cc.Class({
     this.playClickAnimation();
 
     this.scheduleOnce(() => {
-      this.emitClickMessage();
-    }, this.animationGap);
+      this.emitNextRoundMessage();
+    }, 1.85);
   },
 
   gemUnChecked() {
@@ -69,8 +62,12 @@ cc.Class({
       .start();
   },
 
-  emitClickMessage() {
+  emitAnimationFinishMessage() {
     this.node.parent.emit('gemAnimationFinish', { index: this.index });
+  },
+
+  emitNextRoundMessage() {
+    this.node.parent.emit('gemNextRound', { index: this.index });
   },
 
   playGemAnimation() {

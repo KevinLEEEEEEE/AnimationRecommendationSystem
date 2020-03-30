@@ -46,7 +46,7 @@
     },
     {
       "frame": 0.5,
-      "func": "emitClickMessage",
+      "func": "emitNextRoundMessage",
       "params": []
     }
   ]

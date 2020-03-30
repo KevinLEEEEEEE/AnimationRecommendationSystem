@@ -1,3 +1,5 @@
+const { recommendList } = require('./animations');
+
 const nodeType = {
   textNode: 1,
   cardNode: 2,
@@ -65,10 +67,7 @@ const cardFlow = {
   },
 };
 
-const recommendList = ['《fate-zero》', '《BNA》', '《关于我转生成史莱姆的故事》'];
-
 const gameFlow = [
-
   // Round first time
 
   {
@@ -81,22 +80,30 @@ const gameFlow = [
     currIndex: 1,
     nextArray: [2],
     nodeType: nodeType.textNode,
-    content: '准备好了吗~',
+    content: {
+      speaker: '【画外音】',
+      text: '准备好了吗~',
+    },
   },
 
   // Round 1
-
   {
     currIndex: 2,
     nextArray: [3],
     nodeType: nodeType.textNode,
-    content: '来人啊',
+    content: {
+      speaker: '【某男子】',
+      text: '来人啊',
+    },
   },
   {
     currIndex: 3,
     nextArray: [4],
     nodeType: nodeType.textNode,
-    content: '漫荒的我，快死了',
+    content: {
+      speaker: '【某男子】',
+      text: '漫荒的我，快死了',
+    },
   },
   {
     currIndex: 4,
@@ -108,25 +115,37 @@ const gameFlow = [
     currIndex: 5,
     nextArray: [6],
     nodeType: nodeType.textNode,
-    content: 'GOD：响应你的呼唤，我是全知的飞天意面之神',
+    content: {
+      speaker: '【意面之神】',
+      text: '响应你的呼唤，我是全知的飞天意面之神',
+    },
   },
   {
     currIndex: 6,
     nextArray: [7],
     nodeType: nodeType.textNode,
-    content: 'GOD：是你在呼唤我吗？',
+    content: {
+      speaker: '【意面之神】',
+      text: '是你在呼唤我吗？',
+    },
   },
   {
     currIndex: 7,
     nextArray: [8],
     nodeType: nodeType.textNode,
-    content: '意面之神？额。。。您能推荐我几部动漫吗？',
+    content: {
+      speaker: '【某男子】',
+      text: '意面之神？额。。。您能推荐我几部动漫吗？',
+    },
   },
   {
     currIndex: 8,
     nextArray: [9],
     nodeType: nodeType.textNode,
-    content: 'GOD：当然，只要你能完成神圣意面之试炼',
+    content: {
+      speaker: '【意面之神】',
+      text: '当然，只要你能完成神圣意面之试炼',
+    },
   },
   {
     currIndex: 9,
@@ -136,7 +155,6 @@ const gameFlow = [
   },
 
   // Round 2
-
   {
     currIndex: 10,
     nextArray: [11],
@@ -147,25 +165,37 @@ const gameFlow = [
     currIndex: 11,
     nextArray: [12],
     nodeType: nodeType.textNode,
-    content: '画外音：你发现了某个的因厨艺过糟而濒临失恋的男子',
+    content: {
+      speaker: '【画外音】',
+      text: '你发现了某个的因厨艺过糟而濒临失恋的男子',
+    },
   },
   {
     currIndex: 12,
     nextArray: [13],
     nodeType: nodeType.textNode,
-    content: '啊！谁在说话？',
+    content: {
+      speaker: '【某男子】',
+      text: '啊！谁在说话？',
+    },
   },
   {
     currIndex: 13,
     nextArray: [14],
     nodeType: nodeType.textNode,
-    content: '诶，无论是谁，请教我做一份美味便当吧',
+    content: {
+      speaker: '【某男子】',
+      text: '诶，无论是谁，请教我做一份美味便当吧',
+    },
   },
   {
     currIndex: 14,
     nextArray: [15],
     nodeType: nodeType.textNode,
-    content: '我应该拿什么当主食呢？',
+    content: {
+      speaker: '【某男子】',
+      text: '我应该拿什么当主食呢？',
+    },
   },
   {
     currIndex: 15,
@@ -177,25 +207,37 @@ const gameFlow = [
     currIndex: 16,
     nextArray: [19],
     nodeType: nodeType.textNode,
-    content: '芝士就是力量！披萨赛高',
+    content: {
+      speaker: '【某男子】',
+      text: '芝士就是力量！披萨赛高',
+    },
   },
   {
     currIndex: 17,
     nextArray: [19],
     nodeType: nodeType.textNode,
-    content: '汉堡！吃饱了才有力气呢',
+    content: {
+      speaker: '【某男子】',
+      text: '汉堡！吃饱了才有力气呢',
+    },
   },
   {
     currIndex: 18,
     nextArray: [19],
     nodeType: nodeType.textNode,
-    content: '香喷喷的巧克力曲奇诶',
+    content: {
+      speaker: '【某男子】',
+      text: '香喷喷的巧克力曲奇诶',
+    },
   },
   {
     currIndex: 19,
     nextArray: [20],
     nodeType: nodeType.textNode,
-    content: '便当里还需要一份小点心~',
+    content: {
+      speaker: '【某男子】',
+      text: '便当里还需要一份小点心~',
+    },
   },
   {
     currIndex: 20,
@@ -207,25 +249,37 @@ const gameFlow = [
     currIndex: 21,
     nextArray: [24],
     nodeType: nodeType.textNode,
-    content: '用勺子挖着吃！',
+    content: {
+      speaker: '【某男子】',
+      text: '用勺子挖着吃！',
+    },
   },
   {
     currIndex: 22,
     nextArray: [24],
     nodeType: nodeType.textNode,
-    content: '巧克力与坚果碎甜甜圈！',
+    content: {
+      speaker: '【某男子】',
+      text: '巧克力与坚果碎甜甜圈！',
+    },
   },
   {
     currIndex: 23,
     nextArray: [24],
     nodeType: nodeType.textNode,
-    content: '现烤的黄油牛角包！',
+    content: {
+      speaker: '【某男子】',
+      text: '现烤的黄油牛角包！',
+    },
   },
   {
     currIndex: 24,
     nextArray: [25],
     nodeType: nodeType.textNode,
-    content: 'YES！只要再搭配上饮品就完成啦',
+    content: {
+      speaker: '【某男子】',
+      text: 'YES！只要再搭配上饮品就完成啦',
+    },
   },
   {
     currIndex: 25,
@@ -237,25 +291,37 @@ const gameFlow = [
     currIndex: 26,
     nextArray: [29],
     nodeType: nodeType.textNode,
-    content: '温暖的蜂蜜红茶',
+    content: {
+      speaker: '【某男子】',
+      text: '温暖的蜂蜜红茶',
+    },
   },
   {
     currIndex: 27,
     nextArray: [29],
     nodeType: nodeType.textNode,
-    content: '喝杯咖啡提提神',
+    content: {
+      speaker: '【某男子】',
+      text: '喝杯咖啡提提神',
+    },
   },
   {
     currIndex: 28,
     nextArray: [29],
     nodeType: nodeType.textNode,
-    content: '一小杯甜酒呢~',
+    content: {
+      speaker: '【某男子】',
+      text: '一小杯甜酒呢~',
+    },
   },
   {
     currIndex: 29,
     nextArray: [30],
     nodeType: nodeType.summeryNode,
-    content: '',
+    content: {
+      speaker: '【画外音】',
+      text: '',
+    },
   },
 
   // Round 3
@@ -275,13 +341,19 @@ const gameFlow = [
     currIndex: 32,
     nextArray: [33],
     nodeType: nodeType.textNode,
-    content: 'GOD：恭喜你通过了神圣意面之试炼',
+    content: {
+      speaker: '【意面之神】',
+      text: '恭喜你通过了神圣意面之试炼',
+    },
   },
   {
     currIndex: 33,
     nextArray: [34],
     nodeType: nodeType.textNode,
-    content: 'GOD：开启你的推荐宝石吧',
+    content: {
+      speaker: '【意面之神】',
+      text: '开启你的推荐宝石吧',
+    },
   },
   {
     currIndex: 34,
@@ -299,25 +371,42 @@ const gameFlow = [
     currIndex: 36,
     nextArray: [37],
     nodeType: nodeType.recommendNode,
-    content: recommendList,
+    content: {
+      speaker: '【画外音】',
+      text: recommendList,
+    },
   },
 
   // Round 4
   {
     currIndex: 37,
     nextArray: [38],
-    nodeType: nodeType.refreshNode,
-    content: '',
+    nodeType: nodeType.animationNode,
+    content: animationNode.moveBgToMiddle,
   },
   {
     currIndex: 38,
     nextArray: [39],
     nodeType: nodeType.textNode,
-    content: '【单击】重新开始',
+    content: {
+      speaker: '【画外音】',
+      text: '重新开始',
+    },
   },
   {
+    currIndex: 39,
+    nextArray: [2],
+    nodeType: nodeType.refreshNode,
+    content: '',
+  },
+  {
+    currIndex: null,
+    nextArray: null,
     nodeType: nodeType.textNode,
-    content: '就决定是你啦！便当配与！【红绿银色推荐宝石】是一部。。。的动漫，后续内容有待完善[继续]',
+    content: {
+      speaker: '【画外音】【意面之神】【某男子】',
+      text: '开启红色脉动宝石绿色翡翠宝石银色光辉宝石你需要的是就决定是你啦！便当配与【画外音】【意面之神】【某男子】[继续]',
+    },
   },
 ];
 
@@ -327,5 +416,3 @@ module.exports.gameFlow = gameFlow;
 module.exports.nodeType = nodeType;
 
 module.exports.animationNode = animationNode;
-
-module.exports.recommendList = recommendList;
