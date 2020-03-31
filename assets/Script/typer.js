@@ -43,9 +43,10 @@ cc.Class({
 
   onLoad() {
     this.node.on('startType', this.startType, this);
-    this.canvasNode.on('mousedown', this.btnClick, this);
 
-    this.resetTyper();
+    this.setState(STATE.beforeType);
+
+    this.resetTyperData();
   },
 
   startType({ content, resolve }) {
@@ -61,6 +62,8 @@ cc.Class({
     this.setTyperLabelContent('');
     this.setSpeakerLabelContent(content.speaker);
 
+    this.hideContinueBtn();
+
     this.typing(content.text);
   },
 
@@ -70,11 +73,13 @@ cc.Class({
     } else if (this.canContinue()) { // next round
       this.currTextResolve();
 
-      this.resetTyper();
+      this.resetTyperData();
+
+      this.hideContinueBtn();
     }
   },
 
-  resetTyper() {
+  resetTyperData() {
     this.setState(STATE.beforeType);
 
     this.typingHandler = null;
@@ -83,8 +88,6 @@ cc.Class({
       speaker: '',
       content: '',
     };
-
-    this.hideContinueBtn();
   },
 
   skipType() {

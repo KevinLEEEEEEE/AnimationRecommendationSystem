@@ -44,10 +44,16 @@ cc.Class({
     } else {
       debug.setLevel(0);
     }
+
+    this.isGameStart = false;
   },
 
-  start() {
-    this.runGameIndex(0);
+  startGame() {
+    if (this.isGameStart === false) {
+      this.runGameIndex(0);
+
+      this.isGameStart = true;
+    }
   },
 
   runGameIndex(index) {

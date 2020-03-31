@@ -53,7 +53,7 @@ cc.Class({
     cc.tween(this.noodleNode)
       .to(1.2, {
         position: cc.v2(this.noodleNode.position.x, this.noodleGodShowY),
-        rotation: 360,
+        angle: 360,
         scale: 1,
       })
       .call(resolve)

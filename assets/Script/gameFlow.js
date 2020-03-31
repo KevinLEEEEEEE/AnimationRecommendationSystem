@@ -72,7 +72,7 @@ const gameFlow = [
 
   {
     currIndex: 0,
-    nextArray: [1],
+    nextArray: [2],
     nodeType: nodeType.refreshNode,
     content: '',
   },
