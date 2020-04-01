@@ -1,7 +1,7 @@
 {
-  "appid": "wx6ac3f5090a6b99c5",
+  "appid": "wxe0b6ff35428354fd",
   "orientation": "portrait",
-  "separate_engine": true,
+  "separate_engine": false,
   "REMOTE_SERVER_ROOT": "",
   "subContext": ""
 }

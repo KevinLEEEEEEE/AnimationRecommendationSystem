@@ -43,7 +43,13 @@ cc.Class({
     this.bgNode.opacity = 0;
   },
 
-  godShow({ resolve }) {
+  godShow(resolve) {
+    this.scheduleOnce(() => {
+      this.godShowAnime(resolve);
+    }, 1.0);
+  },
+
+  godShowAnime({ resolve }) {
     this.playShowSound();
 
     cc.tween(this.bgNode)
@@ -74,10 +80,14 @@ cc.Class({
   },
 
   playShowSound() {
+    cc.log('play god show sound');
+
     cc.audioEngine.play(this.showSound, false, GlobalSetting.volume);
   },
 
   playHideSound() {
+    cc.log('play god show sound');
+
     cc.audioEngine.play(this.hideSound, false, GlobalSetting.volume);
   },
 });

@@ -1,5 +1,5 @@
 const GlobalSetting = {
-  volume: 0.4,
+  volume: 0.5,
 };
 
 module.exports.GlobalSetting = GlobalSetting;

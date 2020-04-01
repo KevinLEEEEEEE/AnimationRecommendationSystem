@@ -39,12 +39,6 @@ cc.Class({
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    if (CC_DEBUG === true) {
-      debug.setLevel(5);
-    } else {
-      debug.setLevel(0);
-    }
-
     this.isGameStart = false;
   },
 
@@ -61,7 +55,7 @@ cc.Class({
       content, nodeType: currNodeType, nextArray, currIndex,
     } = gameFlow[index];
 
-    debug.log(`【GameController】：New Cycle：${currIndex}`);
+    cc.log(`【GameController】：New Cycle：${currIndex}`);
 
     this.runMainStep(currNodeType, content)
       .then((nextIndex) => {
@@ -70,7 +64,7 @@ cc.Class({
         }, this.beforeNewCycle);
       })
       .catch((e) => {
-        debug.error(`【GameController】：Error!, details: ${e}`);
+        cc.error(`【GameController】：Error!, details: ${e}`);
       });
   },
 
@@ -167,7 +161,7 @@ cc.Class({
     let recommendHistory = this.getRecommendHistory();
     let avaiList = this.excludeArray(animeList, recommendHistory);
 
-    debug.log(`【GameController】：get current history: ${recommendHistory}`);
+    cc.log(`【GameController】：get current history: ${recommendHistory}`);
 
     if (avaiList.length === 0) {
       this.clearRecommendHistory();
@@ -175,7 +169,7 @@ cc.Class({
       avaiList = animeList;
       recommendHistory = [];
 
-      debug.log('【GameController】：run out of recommendation list');
+      cc.log('【GameController】：run out of recommendation list');
     }
 
     const recommendation = avaiList[this.getRandomInt(avaiList.length)];
@@ -183,7 +177,7 @@ cc.Class({
     recommendHistory.push(recommendation);
     this.setRecommendHistory(recommendHistory);
 
-    debug.log(`【GameController】：set new history: ${recommendHistory}`);
+    cc.log(`【GameController】：set new history: ${recommendHistory}`);
 
     return recommendation;
   },
@@ -193,7 +187,13 @@ cc.Class({
   },
 
   getRecommendHistory() {
-    return JSON.parse(cc.sys.localStorage.getItem('recommendHistory')) || [];
+    const history = cc.sys.localStorage.getItem('recommendHistory');
+
+    if (history) {
+      return JSON.parse(history);
+    }
+
+    return [];
   },
 
   setRecommendHistory(data) {
@@ -235,10 +235,6 @@ cc.Class({
   },
 
   getSummeryContent() {
-    // const list = this.choicesList;
-    // // const name1 = list[0] ? list[0].name : '';
-    // // const name2 = list[1] ? list[1].name : '';
-    // // const name3 = list[2] ? list[2].name : '';
     const [{ name: name1 }, { name: name2 }, { name: name3 }] = this.choicesList;
 
     return `就决定是你啦！${name1}便当配${name2}与${name3}！`;

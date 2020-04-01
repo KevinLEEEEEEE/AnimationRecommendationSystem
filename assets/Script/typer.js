@@ -111,12 +111,12 @@ cc.Class({
   typing(text) {
     const totalLoop = text.length - 1;
     let currLoop = 0;
-    let currAudio = null;
+    // let currAudio = null;
 
     this.typingHandler = () => {
-      if (currAudio) {
-        this.stopTyperSound(currAudio);
-      }
+      // if (currAudio) {
+      //   this.stopTyperSound(currAudio);
+      // }
 
       if (currLoop >= totalLoop) {
         this.finishType();
@@ -125,7 +125,7 @@ cc.Class({
       currLoop += 1;
       const content = this.getTyperContent(text, currLoop, totalLoop);
 
-      currAudio = this.playTyperSound();
+      this.playTyperSound();
       this.setTyperLabelContent(content);
     };
 
@@ -165,12 +165,12 @@ cc.Class({
   },
 
   playTyperSound() {
-    return cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
+    cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
   },
 
-  stopTyperSound(audio) {
-    cc.audioEngine.stop(audio);
-  },
+  // stopTyperSound(audio) {
+  //   cc.audioEngine.stop(audio);
+  // },
 
   showContinueBtn() {
     this.continueBtnNode.active = true;

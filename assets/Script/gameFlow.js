@@ -72,18 +72,15 @@ const gameFlow = [
 
   {
     currIndex: 0,
-    nextArray: [2],
+    nextArray: [1],
     nodeType: nodeType.refreshNode,
     content: '',
   },
   {
     currIndex: 1,
     nextArray: [2],
-    nodeType: nodeType.textNode,
-    content: {
-      speaker: '【画外音】',
-      text: '准备好了吗~',
-    },
+    nodeType: nodeType.animationNode,
+    content: animationNode.moveBgToMiddle,
   },
 
   // Round 1
@@ -93,7 +90,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '来人啊',
+      text: '来人啊 X﹏X',
     },
   },
   {
@@ -117,7 +114,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【意面之神】',
-      text: '响应你的呼唤，我是全知的飞天意面之神',
+      text: '响应你的呼唤，我是全知的飞天意面之神。',
     },
   },
   {
@@ -135,7 +132,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '意面之神？额。。。您能推荐我几部动漫吗？',
+      text: '意面之神？’(°ー°〃)您能推荐我几部动漫吗？',
     },
   },
   {
@@ -144,7 +141,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【意面之神】',
-      text: '当然，只要你能完成神圣意面之试炼',
+      text: '当然，只要你能完成神圣意面之试炼。',
     },
   },
   {
@@ -167,7 +164,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【画外音】',
-      text: '你发现了某个的因厨艺过糟而濒临失恋的男子',
+      text: '你发现了某个的因厨艺过糟而濒临失恋的男子。',
     },
   },
   {
@@ -176,7 +173,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '啊！谁在说话？',
+      text: '啊！谁在说话 (*゜ー゜*)',
     },
   },
   {
@@ -209,7 +206,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '芝士就是力量！披萨赛高',
+      text: '芝士就是力量！披萨赛高 ╰(*°▽°*)╯',
     },
   },
   {
@@ -218,7 +215,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '汉堡！吃饱了才有力气呢',
+      text: '汉堡！吃饱了才有力气呢 ╰(*°▽°*)╯',
     },
   },
   {
@@ -227,7 +224,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '香喷喷的巧克力曲奇诶',
+      text: '香喷喷的巧克力曲奇诶 ╰(*°▽°*)╯',
     },
   },
   {
@@ -251,7 +248,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '用勺子挖着吃！',
+      text: '用勺子挖着吃！(oﾟvﾟ)ノ',
     },
   },
   {
@@ -260,7 +257,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '巧克力与坚果碎甜甜圈！',
+      text: '巧克力与坚果碎甜甜圈！(oﾟvﾟ)ノ',
     },
   },
   {
@@ -269,7 +266,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '现烤的黄油牛角包！',
+      text: '现烤的黄油牛角包！(oﾟvﾟ)ノ',
     },
   },
   {
@@ -278,7 +275,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: 'YES！只要再搭配上饮品就完成啦',
+      text: '只要再搭配上饮品就完成啦 ♪(^∇^*)',
     },
   },
   {
@@ -293,7 +290,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '温暖的蜂蜜红茶',
+      text: '温暖的蜂蜜红茶 o(*￣︶￣*)o',
     },
   },
   {
@@ -302,7 +299,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '喝杯咖啡提提神',
+      text: '喝杯咖啡提提神 o(*￣︶￣*)o',
     },
   },
   {
@@ -311,7 +308,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '一小杯甜酒呢~',
+      text: '一小杯甜酒呢 o(*￣︶￣*)o',
     },
   },
   {
@@ -343,7 +340,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【意面之神】',
-      text: '恭喜你通过了神圣意面之试炼',
+      text: '恭喜你通过了神圣意面之试炼。',
     },
   },
   {
@@ -352,7 +349,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【意面之神】',
-      text: '开启你的推荐宝石吧',
+      text: '开启你的推荐宝石吧。',
     },
   },
   {
@@ -389,7 +386,7 @@ const gameFlow = [
     nextArray: [39],
     nodeType: nodeType.textNode,
     content: {
-      speaker: '【画外音】',
+      speaker: '【首页】',
       text: '重新开始',
     },
   },
@@ -404,8 +401,8 @@ const gameFlow = [
     nextArray: null,
     nodeType: nodeType.textNode,
     content: {
-      speaker: '【画外音】【意面之神】【某男子】',
-      text: '开启红色脉动宝石绿色翡翠宝石银色光辉宝石你需要的是就决定是你啦！便当配与【画外音】【意面之神】【某男子】[继续]',
+      speaker: '',
+      text: '开启红色脉动宝石绿色翡翠宝石银色光辉宝石你需要的是就决定是你啦！便当配与画外音意面之神某男子首页继续【】[]',
     },
   },
 ];

@@ -51,6 +51,8 @@ cc.Class({
   },
 
   playSound() {
+    cc.log('play card sound');
+
     cc.audioEngine.play(this.cardSound, false, GlobalSetting.volume);
   },
 

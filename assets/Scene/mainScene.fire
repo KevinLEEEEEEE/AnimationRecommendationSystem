@@ -96,7 +96,7 @@
         "__id__": 128
       },
       {
-        "__id__": 129
+        "__id__": 131
       }
     ],
     "_prefab": null,
@@ -186,7 +186,7 @@
       "array": [
         0,
         0,
-        507.4908866176811,
+        392.3095079143507,
         0,
         0,
         0,
@@ -296,7 +296,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        0,
+        -374.5,
         0,
         0,
         0,
@@ -3013,7 +3013,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 120,
+      "width": 96,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3064,8 +3064,8 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "【画外音】",
-    "_N$string": "【画外音】",
+    "_string": "【首页】",
+    "_N$string": "【首页】",
     "_fontSize": 24,
     "_lineHeight": 40,
     "_enableWrapText": true,
@@ -3280,7 +3280,7 @@
       "__id__": 76
     },
     "_enabled": true,
-    "speed": 0.21,
+    "speed": 0.23,
     "typerLabelNode": {
       "__id__": 77
     },
@@ -5144,34 +5144,6 @@
     "_id": "6f5cteKmlPh6NGUsUqxlFR"
   },
   {
-    "__type__": "e0379C9wV5BZo1TqM+OSCEG",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "bgNode": {
-      "__id__": 5
-    },
-    "noodleGodNode": {
-      "__id__": 48
-    },
-    "dialogBoxNode": {
-      "__id__": 65
-    },
-    "cardBoxNode": {
-      "__id__": 83
-    },
-    "gemBoxNode": {
-      "__id__": 107
-    },
-    "beforeNewCycle": 0.4,
-    "choicesList": [],
-    "isFirstRound": true,
-    "_id": "66Wi7MfXJKQKqwXdFJu7Tw"
-  },
-  {
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
@@ -5185,10 +5157,10 @@
     "zoomScale": 1.2,
     "clickEvents": [
       {
-        "__id__": 130
+        "__id__": 129
       },
       {
-        "__id__": 131
+        "__id__": 130
       }
     ],
     "_N$interactable": true,
@@ -5265,5 +5237,33 @@
     "_componentId": "bb6e1ud0vhJDrTd03PD7epm",
     "handler": "btnClick",
     "customEventData": ""
+  },
+  {
+    "__type__": "e0379C9wV5BZo1TqM+OSCEG",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "bgNode": {
+      "__id__": 5
+    },
+    "noodleGodNode": {
+      "__id__": 48
+    },
+    "dialogBoxNode": {
+      "__id__": 65
+    },
+    "cardBoxNode": {
+      "__id__": 83
+    },
+    "gemBoxNode": {
+      "__id__": 107
+    },
+    "beforeNewCycle": 0.6,
+    "choicesList": [],
+    "isFirstRound": true,
+    "_id": "66Wi7MfXJKQKqwXdFJu7Tw"
   }
 ]
