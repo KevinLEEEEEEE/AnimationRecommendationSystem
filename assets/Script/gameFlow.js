@@ -224,7 +224,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【某男子】',
-      text: '香喷喷的巧克力曲奇诶 ╰(*°▽°*)╯',
+      text: '香喷喷的巧克力曲奇诶╰(*°▽°*)╯',
     },
   },
   {
@@ -387,7 +387,7 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '【首页】',
-      text: '重新开始',
+      text: '重新开始 o(*￣︶￣*)o',
     },
   },
   {
@@ -402,7 +402,9 @@ const gameFlow = [
     nodeType: nodeType.textNode,
     content: {
       speaker: '',
-      text: '开启红色脉动宝石绿色翡翠宝石银色光辉宝石你需要的是就决定是你啦！便当配与画外音意面之神某男子首页继续【】[]',
+      text: `开启红色脉动宝石绿色翡翠宝石银色光辉宝石你需要的是就决
+      定是你啦！便当配与画外音意面之神某男子首页继续芝士披萨劲脆汉堡
+      巧滋曲奇整块火龙果甜甜圈精选烘焙蜂蜜红茶美式咖啡鲜果甜酒【】[]`,
     },
   },
 ];

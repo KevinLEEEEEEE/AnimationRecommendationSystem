@@ -25,7 +25,8 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^7.1.0",
-    "gulp-rev-all": "^2.0.3"
+    "gulp-rev-all": "^2.0.3",
+    "gulp-terser": "^1.2.0"
   },
   "dependencies": {}
 }

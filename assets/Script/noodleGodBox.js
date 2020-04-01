@@ -33,10 +33,18 @@ cc.Class({
   onLoad() {
     this.node.on('godShow', this.godShow, this);
     this.node.on('godHide', this.godHide, this);
+
+    this.currAudio = null;
   },
 
   onEnable() {
     this.reset();
+  },
+
+  onDisable() {
+    if (this.currAudio) {
+      cc.audioEngine.stop(this.currAudio);
+    }
   },
 
   reset() {
@@ -50,18 +58,22 @@ cc.Class({
   },
 
   godShowAnime({ resolve }) {
-    this.playShowSound();
+    this.scheduleOnce(() => {
+      this.playShowSound();
+    }, 0.3);
 
     cc.tween(this.bgNode)
-      .to(0.8, { opacity: 180 })
+      .to(1.0, { opacity: 180 })
       .start();
 
     cc.tween(this.noodleNode)
-      .to(1.2, {
+      .to(1.4, {
         position: cc.v2(this.noodleNode.position.x, this.noodleGodShowY),
+        opacity: 255,
         angle: 360,
         scale: 1,
       })
+      .to(1.6, {})
       .call(resolve)
       .start();
   },
@@ -74,7 +86,14 @@ cc.Class({
       .start();
 
     cc.tween(this.noodleNode)
-      .to(1.5, { position: cc.v2(this.noodleNode.position.x, this.noodleGodHideY), scale: 0.5 })
+      .to(1.5, {
+        position: cc.v2(this.noodleNode.position.x, this.noodleGodHideY),
+        opacity: 0,
+        scale: 0.4,
+      })
+      .to(1.7, {
+        angle: 0,
+      })
       .call(resolve)
       .start();
   },
@@ -82,12 +101,12 @@ cc.Class({
   playShowSound() {
     cc.log('play god show sound');
 
-    cc.audioEngine.play(this.showSound, false, GlobalSetting.volume);
+    this.currAudio = cc.audioEngine.play(this.showSound, false, GlobalSetting.volume);
   },
 
   playHideSound() {
-    cc.log('play god show sound');
+    cc.log('play god hide sound');
 
-    cc.audioEngine.play(this.hideSound, false, GlobalSetting.volume);
+    this.currAudio = cc.audioEngine.play(this.hideSound, false, GlobalSetting.volume);
   },
 });

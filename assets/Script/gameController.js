@@ -141,7 +141,7 @@ cc.Class({
 
         return this.runTextStep(newContent);
       })
-      .then(() => this.hidegemBoxWithAnimation());
+      .then(() => this.hideGemBoxWithAnimation());
   },
 
   getGemContent(index) {
@@ -353,7 +353,7 @@ cc.Class({
     return Promise.resolve();
   },
 
-  hidegemBoxWithAnimation() {
+  hideGemBoxWithAnimation() {
     return new Promise((resolve) => {
       this.gemBoxNode.emit('recommendHide', {
         resolve,

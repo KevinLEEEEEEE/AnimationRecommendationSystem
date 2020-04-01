@@ -92,12 +92,12 @@ cc.Class({
 
   skipType() {
     this.finishType();
-
-    this.setTyperLabelContent(this.content.text);
   },
 
   finishType() {
     this.setState(STATE.typeFinished);
+
+    this.setTyperLabelContent(this.content.text);
 
     this.unschedule(this.typingHandler);
 
@@ -109,23 +109,21 @@ cc.Class({
   },
 
   typing(text) {
-    const totalLoop = text.length - 1;
+    const totalLoop = text.length;
     let currLoop = 0;
-    // let currAudio = null;
 
     this.typingHandler = () => {
-      // if (currAudio) {
-      //   this.stopTyperSound(currAudio);
-      // }
-
       if (currLoop >= totalLoop) {
         this.finishType();
+
+        return;
       }
 
-      currLoop += 1;
+      this.playTyperSound();
+
+      currLoop += 2;
       const content = this.getTyperContent(text, currLoop, totalLoop);
 
-      this.playTyperSound();
       this.setTyperLabelContent(content);
     };
 
@@ -167,10 +165,6 @@ cc.Class({
   playTyperSound() {
     cc.audioEngine.play(this.audio, false, GlobalSetting.volume);
   },
-
-  // stopTyperSound(audio) {
-  //   cc.audioEngine.stop(audio);
-  // },
 
   showContinueBtn() {
     this.continueBtnNode.active = true;

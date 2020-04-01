@@ -33,7 +33,7 @@ cc.Class({
   recommendHide({ resolve }) {
     cc.tween(this.node)
       .to(0, { opacity: 100 })
-      .to(0.15, { opacity: 0, scale: 8 }, { easing: 'easeInSine' })
+      .to(0.15, { opacity: 0, scale: 6 }, { easing: 'easeInSine' })
       .call(resolve)
       .start();
   },
@@ -49,12 +49,14 @@ cc.Class({
   },
 
   gemChecked({ node: target }) {
+    cc.log('gembox checked');
+
     if (this.canCheck) {
       this.canCheck = false;
 
       const { children } = this.node;
 
-      for (let i = 0; i < 3; i += 1) {
+      for (let i = 1; i < 4; i += 1) {
         if (target === children[i]) {
           children[i].emit('gemChecked');
         } else {

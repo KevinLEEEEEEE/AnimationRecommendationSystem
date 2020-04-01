@@ -5,6 +5,7 @@ const clean = require('gulp-clean');
 const htmlmin = require('gulp-htmlmin');
 const cleanCSS = require('gulp-clean-css');
 const imagemin = require('gulp-imagemin');
+const terser = require('gulp-terser');
 
 const cleanFolder = () => src(['dist'], { read: false })
   .pipe(clean());
@@ -31,10 +32,22 @@ const imageMinify = () => src('./dist/**/*')
   .pipe(imagemin())
   .pipe(dest('./dist'));
 
+const terserJs = () => src(['./build/wechatgame/**/*.js'])
+  .pipe(terser())
+  .pipe(dest('./build/wechatgame'));
 
-exports.default = series(
+const imageMinify2 = () => src('./build/wechatgame/**/*')
+  .pipe(imagemin())
+  .pipe(dest('./build/wechatgame'));
+
+
+exports.web = series(
   cleanFolder,
   copyFile,
   parallel([htmlminify, cssMinify]),
   imageMinify,
+);
+
+exports.wechat = series(
+  imageMinify2,
 );
