@@ -192,7 +192,7 @@
       "array": [
         0,
         0,
-        392.3095079143507,
+        383.62053761498856,
         0,
         0,
         0,
@@ -5234,7 +5234,7 @@
     "hoverSprite": null,
     "_N$disabledSprite": null,
     "_N$target": null,
-    "_N$isChecked": true,
+    "_N$isChecked": false,
     "toggleGroup": null,
     "checkMark": null,
     "checkEvents": [],

@@ -89,7 +89,7 @@ const gameFlow = [
     nextArray: [3],
     nodeType: nodeType.textNode,
     content: {
-      speaker: '【某男子】',
+      speaker: '【我】',
       text: '来人啊 X﹏X',
     },
   },
@@ -98,7 +98,7 @@ const gameFlow = [
     nextArray: [4],
     nodeType: nodeType.textNode,
     content: {
-      speaker: '【某男子】',
+      speaker: '【我】',
       text: '漫荒的我，快死了',
     },
   },
@@ -131,7 +131,7 @@ const gameFlow = [
     nextArray: [8],
     nodeType: nodeType.textNode,
     content: {
-      speaker: '【某男子】',
+      speaker: '【我】',
       text: '意面之神？’(°ー°〃)您能推荐我几部动漫吗？',
     },
   },
