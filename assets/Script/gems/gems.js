@@ -1,4 +1,4 @@
-const { GlobalSetting } = require('./globalSetting');
+const { GlobalSetting } = require('../setting&flow/globalSetting');
 
 cc.Class({
   extends: cc.Component,
@@ -79,20 +79,14 @@ cc.Class({
   },
 
   playShowSound() {
-    cc.log('play gem show sound');
-
     cc.audioEngine.play(this.gemShow, false, GlobalSetting.volume);
   },
 
   playClickSound1() {
-    cc.log('play gem click sound1');
-
     cc.audioEngine.play(this.gemClick[0], false, GlobalSetting.volume);
   },
 
   playClickSound2() {
-    cc.log('play gem click sound2');
-
     cc.audioEngine.play(this.gemClick[1], false, GlobalSetting.volume);
   },
 });

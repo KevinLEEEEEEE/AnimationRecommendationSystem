@@ -1,4 +1,4 @@
-const { GlobalSetting } = require('./globalSetting');
+const { GlobalSetting } = require('../setting&flow/globalSetting');
 
 cc.Class({
   extends: cc.Component,
@@ -51,8 +51,6 @@ cc.Class({
   },
 
   playSound() {
-    cc.log('play card sound');
-
     cc.audioEngine.play(this.cardSound, false, GlobalSetting.volume);
   },
 
