@@ -66,5 +66,6 @@
     "live": {
       "enable": false
     }
-  }
+  },
+  "migrate-history": []
 }
