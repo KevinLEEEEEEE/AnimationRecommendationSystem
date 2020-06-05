@@ -1,4 +1,4 @@
-const { GlobalSetting } = require('./globalSetting');
+const { GlobalSetting } = require('../setting&flow/globalSetting');
 
 cc.Class({
   extends: cc.Component,

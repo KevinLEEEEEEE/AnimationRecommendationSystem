@@ -1,5 +1,5 @@
 
-const { gameFlow, nodeType, animationNode } = require('./gameFlow');
+const { gameFlow, nodeType, animationNode } = require('./setting&flow/gameFlow');
 
 cc.Class({
   extends: cc.Component,
@@ -38,16 +38,9 @@ cc.Class({
 
   // LIFE-CYCLE CALLBACKS:
 
-  onLoad() {
-    this.isGameStart = false;
-  },
 
-  startGame() {
-    if (this.isGameStart === false) {
-      this.runGameIndex(0);
-
-      this.isGameStart = true;
-    }
+  start() {
+    this.runGameIndex(0);
   },
 
   runGameIndex(index) {

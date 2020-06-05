@@ -1,4 +1,4 @@
-const { GlobalSetting } = require('./globalSetting');
+const { GlobalSetting } = require('../setting&flow/globalSetting');
 
 const STATE = {
   beforeType: 1,
@@ -55,16 +55,17 @@ cc.Class({
     }
 
     this.currTextResolve = resolve;
+
     this.content = content;
 
     this.setState(STATE.typing);
 
     this.setTyperLabelContent('');
-    this.setSpeakerLabelContent(content.speaker);
+    this.setSpeakerLabelContent(this.content.speaker);
 
     this.hideContinueBtn();
 
-    this.typing(content.text);
+    this.typing(this.content.text);
   },
 
   btnClick() {
@@ -109,7 +110,7 @@ cc.Class({
   },
 
   typing(text) {
-    const totalLoop = text.length;
+    const totalLoop = this.getTotalLoop(text);
     let currLoop = 0;
 
     this.typingHandler = () => {
@@ -130,8 +131,12 @@ cc.Class({
     this.schedule(this.typingHandler, this.speed);
   },
 
-  getTyperContent(text, position, total) {
-    return text.substring(0, position) + (position <= total ? '|' : '');
+  getTotalLoop(text) {
+    return text.split('').length;
+  },
+
+  getTyperContent(text, position) {
+    return text.split('').slice(0, position).join('');
   },
 
   setTyperLabelContent(content) {
