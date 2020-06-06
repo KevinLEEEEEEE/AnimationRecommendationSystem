@@ -1,4 +1,4 @@
-const { language, setLanguage } = require('../setting&flow/globalSetting');
+// const { language, setLanguage } = require('../setting&flow/globalSetting');
 
 cc.Class({
   extends: cc.Component,
@@ -12,10 +12,10 @@ cc.Class({
       default: null,
       type: cc.Node,
     },
-    language: {
-      default: language.chinese,
-      type: cc.Enum(language),
-    },
+    // language: {
+    //   default: language.chinese,
+    //   type: cc.Enum(language),
+    // },
   },
 
   // LIFE-CYCLE CALLBACKS:
@@ -55,8 +55,8 @@ cc.Class({
     this.bgNode.angle = 0;
   },
 
-  setLanguage() {
-    setLanguage(this.language);
+  loadHistoryPage() {
+    cc.director.loadScene('history');
   },
 
   // update (dt) {},

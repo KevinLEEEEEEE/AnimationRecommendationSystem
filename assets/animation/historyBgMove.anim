@@ -1,0 +1,37 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "historyBgMove",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2,
+  "sample": 20,
+  "speed": 0.1,
+  "wrapMode": 2,
+  "curveData": {
+    "props": {
+      "y": [
+        {
+          "frame": 0,
+          "value": -247.088
+        },
+        {
+          "frame": 0.5,
+          "value": -503.267
+        },
+        {
+          "frame": 0.85,
+          "value": -255.3634435639104
+        },
+        {
+          "frame": 1.5,
+          "value": 163.417
+        },
+        {
+          "frame": 2,
+          "value": -247.088
+        }
+      ]
+    }
+  },
+  "events": []
+}

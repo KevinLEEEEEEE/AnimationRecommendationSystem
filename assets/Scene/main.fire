@@ -192,7 +192,7 @@
       "array": [
         0,
         0,
-        507.4908866176811,
+        563.8489941468935,
         0,
         0,
         0,
@@ -3777,13 +3777,13 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "中文",
-    "_N$string": "中文",
+    "_string": "开始",
+    "_N$string": "开始",
     "_fontSize": 50,
     "_lineHeight": 50,
     "_enableWrapText": false,
     "_N$file": {
-      "__uuid__": "460104ab-9e72-40ff-80f4-3ee403138f11"
+      "__uuid__": "62c86acf-ed6c-4060-b278-7acb5c7af76d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -3929,12 +3929,11 @@
     "bgNode": {
       "__id__": 96
     },
-    "language": 0,
     "_id": "d5fwByWXFM+qZ2kxex0RtN"
   },
   {
     "__type__": "cc.Node",
-    "_name": "English",
+    "_name": "history",
     "_objFlags": 0,
     "_parent": {
       "__id__": 2
@@ -4148,7 +4147,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 150,
+      "width": 200,
       "height": 63
     },
     "_anchorPoint": {
@@ -4199,13 +4198,13 @@
       }
     ],
     "_useOriginalSize": false,
-    "_string": "。。。",
-    "_N$string": "。。。",
+    "_string": "推荐历史",
+    "_N$string": "推荐历史",
     "_fontSize": 50,
     "_lineHeight": 50,
     "_enableWrapText": false,
     "_N$file": {
-      "__uuid__": "460104ab-9e72-40ff-80f4-3ee403138f11"
+      "__uuid__": "62c86acf-ed6c-4060-b278-7acb5c7af76d"
     },
     "_isSystemFontUsed": false,
     "_spacingX": 0,
@@ -4336,7 +4335,7 @@
     },
     "component": "",
     "_componentId": "693edZpzi9Cv7ziFvaLhS0+",
-    "handler": "setLanguage",
+    "handler": "loadHistoryPage",
     "customEventData": ""
   },
   {
@@ -4353,7 +4352,6 @@
     "bgNode": {
       "__id__": 107
     },
-    "language": 1,
     "_id": "56N233jjNJ470mK6asBLEQ"
   },
   {

@@ -25,6 +25,10 @@ cc.Class({
       default: null,
       type: cc.Node,
     },
+    messageBoxNode: {
+      default: null,
+      type: cc.Node,
+    },
     beforeNewCycle: {
       default: 0.0,
     },
@@ -40,7 +44,9 @@ cc.Class({
 
 
   start() {
-    this.runGameIndex(0);
+    this.getLocation();
+
+    this.runGameIndex(30);
   },
 
   runGameIndex(index) {
@@ -125,16 +131,25 @@ cc.Class({
       .then((index) => {
         const gemContent = this.getGemContent(index);
         const recommendContent = this.getRecommendContent(content.text);
-        const text = `【开启${gemContent}】你需要的是${recommendContent}`;
+        const text = `【开启${gemContent}】你需要的是${recommendContent.info}`;
 
         const newContent = {
           speaker: content.speaker,
           text,
         };
 
+        this.showMessages(recommendContent.name);
+
         return this.runTextStep(newContent);
       })
-      .then(() => this.hideGemBoxWithAnimation());
+      .then(() => this.hideGemBoxWithAnimation())
+      .then(() => {
+        cc.director.loadScene('main'); // tmp redirect to main scene, fix required
+      });
+  },
+
+  showMessages(name) {
+    this.messageBoxNode.emit('showMessages', name);
   },
 
   getGemContent(index) {
@@ -167,7 +182,7 @@ cc.Class({
 
     const recommendation = avaiList[this.getRandomInt(avaiList.length)];
 
-    recommendHistory.push(recommendation);
+    recommendHistory.push(recommendation.name);
     this.setRecommendHistory(recommendHistory);
 
     cc.log(`【GameController】：set new history: ${recommendHistory}`);
@@ -176,7 +191,7 @@ cc.Class({
   },
 
   excludeArray(targetArray, excludes) {
-    return targetArray.filter((element) => excludes.indexOf(element) === -1);
+    return targetArray.filter((element) => excludes.indexOf(element.name) === -1);
   },
 
   getRecommendHistory() {
@@ -354,4 +369,30 @@ cc.Class({
     })
       .then(() => this.hidegemBox());
   },
+
+  // --------------------- Location ------------------------
+
+  getLocation() {
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition((pos) => {
+    //     console.log(pos);
+    //   },
+    //   (err) => {
+    //     console.log(err);
+    //   });
+    // } else {
+    //   alert('浏览器不支持地理定位。');
+    // }
+  },
+
+  // showPosition(position) {
+  //   console.log(position);
+  //   const lat = position.coords.latitude; // 纬度
+  //   const lag = position.coords.longitude; // 经度
+  //   console.log(`纬度:${lat},经度:${lag}`);
+  // },
+
+  // showError(error) {
+  //   console.log(error.code);
+  // },
 });
